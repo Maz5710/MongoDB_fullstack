@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom.min.css">
+    <title>MonogDB Frontend</title>
+</head>
+
+<body>
+
+    <div class="container p-5">
+        <!-- Inputs -->
+        <div id="addContainer">
+
+            <!-- Add Product From -->
+            <form id="addProductForm" class="p-5">
+                <h1 class="text-primary"> Add Product Form </h1> <br><br>
+
+                <label class="mr-4" for="a-name"> Enter name of the product </label>
+                <input type="text" id="a-name" name="productName" class="rounded-pill">
+                <br><br>
+
+                <label class="mr-4" for="a-price"> Enter price of the product </label>
+                <input type="number" id="a-price" name="productPrice" class="rounded-pill">
+                <br><br>
+
+                <label class="mr-5" for="a-imageurl"> Enter the image url </label>
+                <input type="text" class="ml-5 rounded-pill" id="a-imageurl" name="a-imageurl">
+                <br><br>
+
+                <button id="addProduct" name="productButton" type="submit" class="btn btn-primary rounded-pill">Add
+                    product</button>
+            </form>
+            <!-- Add Form Ends -->
+
+            <!-- Edit Form -->
+            <form id="productForm" class="py-5 px-5">
+                <h1 class="text-primary"> Update Product Form </h1> <br><br>
+                <label class="mr-5" for="productId"> Enter product Id: </label>
+                <input type="text" class="ml-5 rounded-pill" id="productId" name="inputId">
+                <br><br>
+
+                <label class="mr-4" for="productName"> Enter name of the product </label>
+                <input type="text" id="productName" name="productName" class="rounded-pill">
+                <br><br>
+
+                <label class="mr-4" for="productPrice"> Enter price of the product </label>
+                <input type="number" id="productPrice" name="productPrice" class="rounded-pill">
+                <br><br>
+
+                <label class="mr-5" for="imageurl"> Enter the image url </label>
+                <input type="text" class="ml-5 rounded-pill" id="imageurl" name="imageurl">
+                <br><br>
+
+                <button id="updateProduct" name="productButton" type="submit"
+                    class="btn btn-primary rounded-pill">Update product</button>
+            </form>
+            <!-- Edit form ends -->
+
+            <h1>REGISTER USER</h1>
+
+            <!-- Register Form -->
+            <!-- <form action="/loginUser" method="post"> -->
+            <form id="registerForm" class="bg-light py-3 px-3 mt-5">
+                <div class="form-group">
+                    <label for="r-username">Username</label>
+                    <input type="text" name="r-username" class="form-control" id="r-username"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="r-email">Email</label>
+                    <input type="email" autocomplete="new-password" name="r-email" class="form-control" id="r-email">
+                </div>
+                <div class="form-group">
+                    <label for="r-password">Password</label>
+                    <input type="password" autocomplete="new-password" name="r-password" class="form-control"
+                        id="r-password">
+                </div>
+                <button id="r-submit" name="r-button" type="button" class="btn btn-primary">Submit</button>
+            </form>
+
+            <h1 class="mt-5">LOG IN FORM</h1>
+            <!-- login form -->
+            <form id="loginForm" class="my-5 rounded-pill">
+                <label for="login-username" class=""> Username: </label>
+                <input type="text" id="login-username" name="username" class="form-control" value="">
+                <br> <br>
+                <label for="login-password" class=""> Password: </label>
+                <input type="password" name="password" id="login-password" class="form-control" value="">
+                <button id="login-submit" name="button" type="submit"
+                    class="btn bg-light text-dark btn-lg btn-dark mt-4"> Submit </button>
+            </form>
+
+            <button id="logout" class="btn btn-primary" type="button" name="button">Log Out</button>
+
+        </div>
+
+        <!-- OUTPUT -->
+        <h1>Output</h1>
+
+        <button id="viewProducts" class="btn btn-primary" type="button">View Products</button>
+
+        <div class="row" id="result">
+
+        </div>
+    </div>
+
+
+
+    <!-- JQuery -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/index.js"></script>
+</body>
+
+</html>
