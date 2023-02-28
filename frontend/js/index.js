@@ -21,8 +21,7 @@ $(document).ready(function(){
         }
     });
 
-    //View Products onclick of View Products Button
-    $('#viewProducts').click(function(){
+    function getAllProducts() {
         $.ajax({
             url: `http://${url}/allProductsFromDB`,
             type: 'GET',
@@ -34,23 +33,36 @@ $(document).ready(function(){
                     document.getElementById('result').innerHTML += `
                     <div class="col-4 mt-3 mb-3">
                         <div class="card">
-                            <img class="card-img-top" src="${productsFromMongo[i].image_url}" alt="Card image cap">
+                        <img class="card-img-top" src="${productsFromMongo[i].image_url}" alt="${productsFromMongo[i].name} image">
                             <div class="card-body">
                                 <h5 class="card-title">${productsFromMongo[i].name}</h5>
                                  <p class="card-text">${productsFromMongo[i].price}</p>
-                                 <button id="deleteProduct" value="${productsFromMongo[i]._id}" class="btn delete btn-primary" type="button" name="button">Delete</button>
+                                 <button value="${productsFromMongo[i]._id}" class="btn delete btn-primary" type="button" name="button">Delete</button>
+                                 <button value="${productsFromMongo[i]._id}" data-bs-toggle="modal" data-bs-target="#editModal" class="btn edit btn-primary" type="button" name="button">Edit</button>
+                                 <button value="${productsFromMongo[i]._id}" data-bs-toggle="modal" data-bs-target="#readmoreModal" class="btn readmore btn-primary" type="button" name="button">Read More</button>
                             </div>
                         </div>
                     </div>
                     `;
+                    editProducts();
                     deleteButtons();
+                    readmore();
                 }
             },
             error: function() {
                 alert('unable to get products');
             }
         });
+    }
+
+    // // Get all products
+    // getAllProducts();
+
+    //View Products onclick of View Products Button
+    $('#viewProducts').click(function(){
+       getAllProducts();
     });// End of View Products
+
 
     //add a product form a click
     $('#addProduct').click(function(event){
@@ -76,6 +88,7 @@ $(document).ready(function(){
             success : function(product){
             console.log(product);
             alert ('product added');
+            getAllProducts();
             },
             error : function(){
             console.log('error: cannot call api');
@@ -84,9 +97,24 @@ $(document).ready(function(){
         }// End of else
     });// End of add Product Click
 
-    $('#updateProduct').click(function(event){
+
+    // Giving our "Save Changes" button an id for each product
+    function editProducts() {
+        let editButtons = document.querySelectorAll('.edit');
+        let buttons = Array.from(editButtons);
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                let saveChange = document.querySelector('.saveChange');
+                saveChange.value = this.value;
+            });
+        });
+    }
+
+
+    // UPDATE PRODUCT from Modal Save Button
+    $('.saveChange').click(function(event){
         event.preventDefault();
-        let productId = $('#productId').val();
+        let productId = this.value;
         let productName = $('#productName').val();
         let productPrice = $('#productPrice').val();
         let productImageUrl = $('#imageurl').val();
@@ -105,6 +133,7 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     console.log(data);
+                    getAllProducts();
                 },
                 error: function(){
                     console.log('error: cannot update post');
@@ -132,6 +161,7 @@ $(document).ready(function(){
                         success: function() {
                             console.log('deleted');
                             alert('Product Deleted');
+                            getAllProducts();
                         },
                         error: function() {
                             console.log('error: cannot delete due to call on api');
@@ -141,6 +171,45 @@ $(document).ready(function(){
             });
         });
     }
+
+    // Get Signle Product Data on Read More click and populate Read More Modal
+    function readmore() {
+        let readmoreButtons = document.querySelectorAll('.readmore');
+        let buttons = Array.from(readmoreButtons);
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                console.log(`readmore with an id of ${this.value}`);
+                let productId = this.value;
+                $.ajax({
+                    url: `http://${url}/singleProduct/${productId}`,
+                    type: `GET`,
+                    dataType: `json`,
+                    success: function (product) {
+                        console.log(product);   
+                        let readmoreBody = document.getElementById('readMoreBody');      
+                        readmoreBody.innerHTML = `
+                        <div class="row featurette">
+                        <div class="col-md-7">
+                            <h2 class="featurette-heading fw-normal lh-1">${product.name} <span
+                                    class="text-muted">$${product.price}</span></h2>
+                            <p class="lead">Some great placeholder content for the first featurette here. Imagine some
+                                exciting prose here.</p>                                
+                        </div>
+                        <div class="col-md-5 ">
+                            <img src="${product.image_url}" class="w-100" alt="${product.name}">
+                        </div>
+                    </div>
+                        `;                
+                    },
+                    error: function() {
+                        alert('Unable to find product');
+                    }
+
+                }); // End of Ajax
+            }); // End of button onClcik
+        }); // End of forEach
+    } // End of readMore function
+
 
 
     // ---------------------- ADD USER API CALLS -------------------
@@ -208,7 +277,7 @@ $(document).ready(function(){
         success: function(user) {
           console.log(user);
 
-          if (user == 'user not found. Please register') {
+          if (user == 'User not found. Please register') {
             alert('User not found. Please Register');
           } else if (user == 'not authorized') {
             alert('Please try with correct details');
@@ -219,7 +288,9 @@ $(document).ready(function(){
             sessionStorage.setItem('userName', user['username']);
             sessionStorage.setItem('userEmail', user['email']);
             console.log(sessionStorage);
-            alert('Welcome back! :)');
+            let loggedIn = document.querySelector('.logged-in');
+            loggedIn.innerHTML = `<p>Logged in as <span class="text-danger">${username.toUpperCase()}</span></p>`;
+            alert(`Welcome back ${username.toUpperCase()}!`);
           } // end of ifs
         }, //success
         error: function() {

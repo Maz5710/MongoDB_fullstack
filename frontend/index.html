@@ -37,29 +37,7 @@
             </form>
             <!-- Add Form Ends -->
 
-            <!-- Edit Form -->
-            <form id="productForm" class="py-5 px-5">
-                <h1 class="text-primary"> Update Product Form </h1> <br><br>
-                <label class="mr-5" for="productId"> Enter product Id: </label>
-                <input type="text" class="ml-5 rounded-pill" id="productId" name="inputId">
-                <br><br>
 
-                <label class="mr-4" for="productName"> Enter name of the product </label>
-                <input type="text" id="productName" name="productName" class="rounded-pill">
-                <br><br>
-
-                <label class="mr-4" for="productPrice"> Enter price of the product </label>
-                <input type="number" id="productPrice" name="productPrice" class="rounded-pill">
-                <br><br>
-
-                <label class="mr-5" for="imageurl"> Enter the image url </label>
-                <input type="text" class="ml-5 rounded-pill" id="imageurl" name="imageurl">
-                <br><br>
-
-                <button id="updateProduct" name="productButton" type="submit"
-                    class="btn btn-primary rounded-pill">Update product</button>
-            </form>
-            <!-- Edit form ends -->
 
             <h1>REGISTER USER</h1>
 
@@ -83,7 +61,8 @@
                 <button id="r-submit" name="r-button" type="button" class="btn btn-primary">Submit</button>
             </form>
 
-            <h1 class="mt-5">LOG IN FORM</h1>
+            <!-- LOGIN SECTION START -->
+            <h1 class="mt-5">LOGIN FORM</h1>
             <!-- login form -->
             <form id="loginForm" class="my-5 rounded-pill">
                 <label for="login-username" class=""> Username: </label>
@@ -96,20 +75,78 @@
             </form>
 
             <button id="logout" class="btn btn-primary" type="button" name="button">Log Out</button>
+            <!-- LOGIN SECTION END -->
+        </div>
+
+        <div class="logged-in mg-5">
 
         </div>
 
-        <!-- OUTPUT -->
-        <h1>Output</h1>
-
+        <!-- OUTPUT START-->
+        <h1 class="mt-5">Output</h1>
         <button id="viewProducts" class="btn btn-primary" type="button">View Products</button>
-
         <div class="row" id="result">
+        </div>
+        <!-- OUTPUT END-->
+    </div>
+    <!-- Container End -->
 
+
+    <!-- Edit Modal Start -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit Form -->
+                    <form id="productForm" class="py-5 px-5">
+
+                        <label class="mr-4" for="productName"> Enter name of the product </label>
+                        <input type="text" id="productName" name="productName" class="rounded-pill">
+                        <br><br>
+
+                        <label class="mr-4" for="productPrice"> Enter price of the product </label>
+                        <input type="number" id="productPrice" name="productPrice" class="rounded-pill">
+                        <br><br>
+
+                        <label class="mr-5" for="imageurl"> Enter the image url </label>
+                        <input type="text" class="ml-5 rounded-pill" id="imageurl" name="imageurl">
+                        <br><br>
+                    </form>
+                    <!-- Edit form ends -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn saveChange btn-primary">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal End -->
+
+    <!-- READMORE MODAL START -->
+    <!-- Modal -->
+    <div class="modal fade" id="readmoreModal" tabindex="-1" aria-labelledby="readmoreModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="readMoreBody">
+                    
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
         </div>
     </div>
 
 
+
+    <!-- READMORE MODAL END -->
 
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>

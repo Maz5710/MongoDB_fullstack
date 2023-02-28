@@ -59,7 +59,7 @@ app.post('/addProduct', (req, res) => {
     }).catch(err => res.send(err));
 })
 
-// Edit/ UPDATE using 'PATCH' http method
+// Edit UPDATE using 'PATCH' http method
 app.patch('/updateProduct/:id', (req, res) => {
     const idParam = req.params.id;
     Product.findById(idParam, (err, product) => {
@@ -77,6 +77,8 @@ app.patch('/updateProduct/:id', (req, res) => {
     })
 })
 
+
+// DELETE using 'DELETE' http method
 app.delete('/deleteProduct/:id', (req,res) => {
     const idParam = req.params.id;
     Product.findOne({
@@ -93,6 +95,27 @@ app.delete('/deleteProduct/:id', (req,res) => {
         }
     }).catch(err => res.send(err));
 }); // Delete
+
+// Get single product from database v1 Max
+// app.get('/singleProduct/:id', (req, res) => {
+//     const idParam = req.params.id;
+//     Product.findById(idParam, (err, product) => {
+//         if (product) {
+//             res.send(product);
+//         } else {
+//             req.send(err);
+//         };
+//     });
+// });
+
+// Get single product from database v2 Ciaran
+app.get('/singleProduct/:id', (req,res) => {
+    const idParam = req.params.id;
+    Product.findById(idParam).then(result => {
+        res.send(result)
+    });
+});
+
 
 // ----------------------- USER END POINTS -----------------------
 
@@ -132,7 +155,7 @@ app.post('/loginUser', ( req, res)=>{
           res.send('not authorized');
         }// inner if
       } else {
-        res.send('user not found. Please register');
+        res.send('User not found. Please register');
       }//outer if
     });//find one ends
   });//end of post for login
