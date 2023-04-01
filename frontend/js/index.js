@@ -194,7 +194,7 @@ $(document).ready(function () {
         });
     }
 
-    // Get Signle Product Data on Read More click and populate Read More Modal
+    // Get Single Product Data on Read More click and populate Read More Modal
     function readmore() {
         let readmoreButtons = document.querySelectorAll('.readmore');
         let buttons = Array.from(readmoreButtons);
@@ -219,8 +219,33 @@ $(document).ready(function () {
                         <div class="col-md-5 ">
                             <img src="${product.image_url}" class="w-100" alt="${product.name}">
                         </div>
+                        <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                            <button id="viewComments" value="${product._id}" class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            View Comments
+                            </button>
+                             </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div id="comments">
+                                        
+                                    </div>
+                                    <div class="add-comment">
+                                        <label for="exampleFormControlTextarea1" class="form-label">New Comment</label>
+                                        <textarea id="newCommentText" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <button id="saveComment" class="btn btn-primary mt-3">Save Comment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                         `;
+                        viewComments();
+                        addComment();
                     },
                     error: function () {
                         alert('Unable to find product');
@@ -330,5 +355,69 @@ $(document).ready(function () {
         window.location.href = '/about.html';
     });
 
+    // COMMENTS
+
+    // Get Comments
+    function getComments() {
+        let commentsContainer = document.getElementById('comments');
+        let productId = $('#viewComments').val();
+        $.ajax({
+            url: `http://${url}/allComments`,
+            type: `GET`,
+            dataType: `json`,
+            success: function (comments) {
+                console.log(comments);
+                for (i = 0; i < comments.length; i++) {
+                    if (productId === comments[i].product_id) {
+                        console.log(comments[i]);
+                        let date = comments[i].time;
+                        commentsContainer.innerHTML += `
+                        <div class="new-comment">
+                            <p>${comments[i].text}</p>
+                            <h6 class="text-muted">Posted by: <span>${comments[i].username}</span><br><span>${comments[i].time}</span></h6>
+                        </div>
+                    `;
+                    }
+                }
+            },
+            error: function () {
+                console.log('error: cannot call comments api');
+            } // end of error
+        }); // end of ajax
+    } // end of get comments
+
+    // Veiw Comments
+    function viewComments() {
+        $('#viewComments').click(function () {
+            getComments();
+        });
+    }
+
+    function addComment() {
+        $('#saveComment').click(function () {
+            let comment = $('#newCommentText').val();
+            let user = sessionStorage.getItem('userName');
+            let productId = $('#viewComments');
+            console.log(user);
+            console.log(comment);
+            console.log(productId);
+            $.ajax({
+                url: `http//${url}/createComment`,
+                type: `POST`,
+                data: {
+                    text: comment,
+                    username: user,
+                    product_id: productId
+                },
+                success: function(comment) {
+                    console.log(comment);
+                    getComments();
+                },
+                error: function() {
+                    console.log('error: cannot post comment');
+                } // End of error
+            }); // End of ajax
+        }); // End of click
+    } // End of function
 
 }); // Doc Ready function Ends
